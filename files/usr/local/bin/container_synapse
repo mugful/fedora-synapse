@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python2 -m synapse.app.homeserver -c /var/lib/synapse/config/server.yml
