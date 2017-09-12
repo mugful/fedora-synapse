@@ -57,3 +57,16 @@ container (408448 for both UID and GID).
         -v /var/lib/synapse:/var/lib/synapse:z \
         -p 8448:8448 \
         dockingbay/fedora-synapse
+
+
+Register a user
+---------------
+
+When your Synapse server is running, you can start registering
+users. Start a shell within the synapse container:
+
+    docker exec -ti my_synapse bash
+
+And register the user interactively:
+
+    register_new_matrix_user -c /var/lib/synapse/config/server.yml https://localhost:8448
