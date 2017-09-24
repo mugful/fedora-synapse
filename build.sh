@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-yum -y install matrix-synapse
+yum -y install jq matrix-synapse
 yum clean all
 
 groupmod -g 408448 synapse

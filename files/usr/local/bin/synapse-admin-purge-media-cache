@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+echo "Server fqdn: $SERVER_FQDN"
+echo "Admin user: $ADMIN_USER"
+
+ADMIN_TOKEN=$(curl -H "Accept: application/json" \
+    -X POST \
+    -d '{"type": "m.login.password", "user": "'"$ADMIN_USER"'", "password": "'"$ADMIN_PASSWORD"'"}' \
+    https://$SERVER_FQDN:8448/_matrix/client/r0/login | jq -r '.["access_token"]')
+
+if [ -z "$ADMIN_TOKEN" ]; then
+    echo "Failed to get auth token."
+    exit 1
+fi
+
+TIMESTAMP_MS_NOW=$(date +%s%3N)
+
+curl -X POST 'https://'"$SERVER_FQDN"':8448/_matrix/client/r0/admin/purge_media_cache?before_ts='"$TIMESTAMP_MS_NOW"'&access_token='"$ADMIN_TOKEN"

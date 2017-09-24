@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+echo "Server fqdn: $SERVER_FQDN"
+echo "Admin user: $ADMIN_USER"
+echo "Room to purge: $ROOM_ID"
+echo "Event to purge from: $EVENT_ID"
+
+# echo | sqlite3 server.db -batch -cmd 'SELECT * FROM room_names;'
+# echo | sqlite3 server.db -batch -cmd 'SELECT event_id FROM events WHERE type='m.room.message' AND received_ts<'"$UNIX_TIMESTAMP"' AND room_id='"$ROOM_ID"' ORDER BY received_ts DESC LIMIT 1;'
+# echo | sqlite3 server.db -batch -cmd 'VACUUM;'
+
+ADMIN_TOKEN=$(curl -H "Accept: application/json" \
+    -X POST \
+    -d '{"type": "m.login.password", "user": "'"$ADMIN_USER"'", "password": "'"$ADMIN_PASSWORD"'"}' \
+    https://$SERVER_FQDN:8448/_matrix/client/r0/login | jq -r '.["access_token"]')
+
+if [ -z "$ADMIN_TOKEN" ]; then
+    echo "Failed to get auth token."
+    exit 1
+fi
+
+curl -X POST 'https://'"$SERVER_FQDN"':8448/_matrix/client/r0/admin/purge_history/'"$ROOM_ID"'/'"$EVENT_ID"'?access_token='"$ADMIN_TOKEN"
