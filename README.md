@@ -3,12 +3,18 @@ fedora-synapse
 
 A Synapse Matrix server image built on top of Fedora.
 
-Build
------
+Pull
+----
 
-    git clone https://github.com/dockingbay/fedora-synapse
+Either pull from Quay.io:
+
+    docker pull quay.io/mugful/fedora-synapse:master
+
+Or build your own:
+
+    git clone https://github.com/mugful/fedora-synapse
     cd fedora-synapse
-    docker build --force-rm -t dockingbay/fedora-synapse:latest .
+    docker build --force-rm -t mugful/fedora-synapse:master .
 
 Configure
 ---------
@@ -31,7 +37,9 @@ Synapse config generation in a throwaway container, and extract some
 the basic config from there and customize it. Such a throwaway
 container could be created this way:
 
-    docker run --rm --name synapse_config -i -t dockingbay/fedora-synapse bash
+    docker run --rm --name synapse_config -i -t \
+        quay.io/mugful/fedora-synapse:master \
+        bash
 
 And then run the config generation within that container:
 
@@ -56,7 +64,7 @@ container (408448 for both UID and GID).
         --name my_synapse \
         -v /var/lib/synapse:/var/lib/synapse:z \
         -p 8448:8448 \
-        dockingbay/fedora-synapse
+        quay.io/mugful/fedora-synapse:master
 
 
 Register a user
