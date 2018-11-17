@@ -1,7 +1,7 @@
 FROM registry.fedoraproject.org/fedora:28
 MAINTAINER Jiri Stransky <jistr@jistr.com>
 
-RUN yum -y update; yum clean all
+RUN yum -y update --refresh; yum clean all
 
 COPY build.sh /root/build.sh
 RUN /root/build.sh
