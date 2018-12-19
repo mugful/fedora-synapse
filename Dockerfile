@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:28
+FROM registry.fedoraproject.org/fedora:29
 MAINTAINER Jiri Stransky <jistr@jistr.com>
 
 RUN yum -y update --refresh; yum clean all
