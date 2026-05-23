@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora:44-x86_64
+FROM quay.io/fedora/fedora:43-x86_64
 MAINTAINER Jiri Stransky <jistr@jistr.com>
 
 RUN yum -y update --refresh; yum clean all
